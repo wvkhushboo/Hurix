@@ -4,6 +4,11 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import * as dotenv from "dotenv";
+// dotenv.config({path:"../.env"});
+
+// console.log("pro:", process.env.REACT_APP_API_URL);
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

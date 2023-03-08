@@ -1,16 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Button, Row } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 
-// type tableComponentProps={
-//   id:number,
-//   name: string
-// }
 const TableComponent = (props: any) => {
   // All declarations
   useEffect(() => {
-    console.log("tableData: ", props.columns);
-  }, [props.tableData]);
+    // console.log("props.tableData: ", props.tableData);
+  }, [props?.tableData]);
   return (
     <div style={{ textAlign: "center" }}>
       {props?.tableData.length == 0 ? (
@@ -25,48 +21,59 @@ const TableComponent = (props: any) => {
             </tr>
           </thead>
           <tbody>
-            {props?.tableData.map((data: any) =>
-              // data.name != "" ||
-              // undefined &&
-              !data.hasOwnProperty("email") ? (
-                <tr key={data.id}>
-                  <td>{data.name}</td>
-                  <td>
-                    <div className="d-flex gap-2">
-                      <Button variant="primary">Permissions</Button>{" "}
-                      <Button variant="primary">Clone</Button>{" "}
-                    </div>
-                  </td>
-                </tr>
-              ) : (
-                <tr key={data.id}>
+            {props?.tableData?.map((data: any) => (
+              <tr key={data?.id}>
+                <td className="team-table-data">
+                  {data?.name != "" && <Row> {data.name}</Row>}
+                  {data?.email != "" && <Row> {data.email}</Row>}
+                </td>
+                {data?.roles && (
                   <td className="team-table-data">
-                    {data?.name != "" && <Row> {data.name}</Row>}
-                    {data?.email != "" && <Row> {data.email}</Row>}
-                  </td>
-                  <td className="team-table-data">
-                    {data.roles.map((role: any) => (
-                      <Row> {role.role_name}</Row>
+                    {data?.roles?.map((role: any) => (
+                      <Row> {role?.role_name}</Row>
                     ))}
                   </td>
+                )}
+                {data?.status && (
                   <td className="team-table-data">
-                    {data.status == 1 ? "Joined" : "Invite Pending"}
+                    {data?.status == 1 ? "Joined" : "Invite Pending"}
                   </td>
-                  <td>
-                    <div className="d-flex gap-2">
-                        {data.status!=1?(<Button variant="primary">Resend</Button>):"-"}
-                        {data.status!=1?(<Button variant="primary">Cancel</Button>):"-"}
-                        {data.status!=1?(<Button variant="primary">Remove</Button>):"-"}
-                      </div>
-                  </td>
-                </tr>
-              )
-            )}
+                )}
+                <td>
+                  <div className="d-flex gap-2">
+                    {data?.buttons?.remove ? (
+                      <Button onClick={props.parentFunction}>{data?.buttons?.remove}</Button>
+                    ) : (
+                      ""
+                    )}
+                    {data?.buttons?.cancel ? (
+                      <Button onClick={props.parentFunction}>{data?.buttons?.cancel}</Button>
+                    ) : (
+                      ""
+                    )}
+                    {data?.buttons?.resend ? (
+                      <Button onClick={props.parentFunction}>{data?.buttons?.resend}</Button>
+                    ) : (
+                      ""
+                    )}
+                    {data?.buttons?.permissions ? (
+                      <Button onClick={props.parentFunction}>{data?.buttons?.permissions}</Button>
+                    ) : (
+                      ""
+                    )}
+                    {data?.buttons?.clone ? (
+                      <Button onClick={props.parentFunction}>{data?.buttons?.clone}</Button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       )}
     </div>
   );
 };
-// user.hasOwnProperty('name'); // Returns true
 export default TableComponent;

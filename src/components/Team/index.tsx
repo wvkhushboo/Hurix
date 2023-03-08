@@ -7,13 +7,13 @@ const Team = () => {
   const [teamData, setTeamData] = useState<any>([]);
   const columns: string[] = ["Member", "Role", "Status", "Invite Actions"];
   useEffect(() => {
-    // console.log("process.env.REACT_APP_API_URL:", process.env.REACT_APP_API_URL, process.env.REACT_APP_TOKEN);
     getTeam();
   }, []);
 
   useEffect(() => {
-    console.log("roleData useEffect: ", teamData);
+    // console.log("teamData useEffect: ", teamData);
   }, [teamData]);
+
   // All functions
   const getTeam = async () => {
     await axios
@@ -23,19 +23,39 @@ const Team = () => {
         },
       })
       .then((res) => {
-        console.log("res: ", res);
-        res.status === 200 && setTeamData(res.data.data);
-        console.log("roleData: ", teamData);
+        if (res.status === 200) {
+          const apiRes = res.data.data;
+          apiRes?.map((data: any) => {
+            let role_id = data?.roles?.map((role: any) => {
+              return role.role_id;
+            });
+            if (data.status == 1 && role_id.includes(1)) {
+              data.buttons = { remove: "-", cancel: "-", resend: "-" };
+            } else if (data.status == 1 && !role_id.includes(1)) {
+              data.buttons = { remove: "Remove" };
+            } else {
+              data.buttons = {
+                remove: "Remove",
+                cancel: "Cancel",
+                resend: "Resend",
+              };
+            }
+          });
+          setTeamData(apiRes);
+        }
       })
       .catch((error) => {
         console.log("error: ", error);
       });
   };
 
+  const parentFunction=()=>{
+    alert("parentFunction - team");
+  }
   return (
     <div className="team-container">
       <h1 className="text-center"> Manage Your Team</h1>
-      <TableComponent tableData={teamData} columns={columns} />
+      <TableComponent tableData={teamData} columns={columns} parentFunction={parentFunction}/>
     </div>
   );
 };

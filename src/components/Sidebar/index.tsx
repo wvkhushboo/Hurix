@@ -1,7 +1,8 @@
 import "./index.css";
 import { Link } from "react-router-dom";
+import React from 'react';
 
-const Sidebar = () => {
+const Sidebar:React.FC = () => {
   return (
     <>
       <div className="sidebar">

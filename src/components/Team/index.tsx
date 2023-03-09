@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import TableComponent from "../TableComponent";
 import axios from "axios";
-
-const Team = () => {
+import React from 'react';
+import { ITEAM } from "../../modals/ITable";
+const Team:React.FC = () => {
   // All declarations
-  const [teamData, setTeamData] = useState<any>([]);
+  const [teamData, setTeamData] = useState<ITEAM[]>([]);
   const columns: string[] = ["Member", "Role", "Status", "Invite Actions"];
   useEffect(() => {
     getTeam();
   }, []);
 
   useEffect(() => {
-    // console.log("teamData useEffect: ", teamData);
+    console.log("teamData useEffect: ", teamData);
   }, [teamData]);
 
   // All functions

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Sidebar from "../Sidebar";
-
-const Dashboard = () => {
+import React from 'react'
+const Dashboard:React.FC = () => {
   return (
     <>
       <div>

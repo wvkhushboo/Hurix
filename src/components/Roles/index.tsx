@@ -1,14 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import TableComponent from "../TableComponent";
+import React from "react";
+import { IROLE } from "../../modals/ITable";
 
-const Roles = () => {
+const Roles: React.FC = () => {
   // All declarations
   // type tableComponentProps={
   //   id:number,
   //   name: string
   // }
-  const [roleData, setRoleData] = useState<any>([]);
+  const [roleData, setRoleData] = useState<IROLE[]>([]);
   const columns: string[] = ["Default Roles", "Actions"];
 
   useEffect(() => {
@@ -16,7 +18,7 @@ const Roles = () => {
   }, []);
 
   useEffect(() => {
-    // console.log("roleData useEffect: ", roleData);
+    console.log("roleData useEffect: ", roleData);
   }, [roleData]);
 
   // All functions
@@ -53,7 +55,12 @@ const Roles = () => {
       {roleData?.length == 0 ? (
         <h1 style={{ textAlign: "center" }}>No Roles to display</h1>
       ) : (
-        <TableComponent tableData={roleData?.default} columns={columns} parentFunction={parentFunction}/>
+        <TableComponent
+          //@ts-ignore
+          tableData={roleData?.default}
+          columns={columns}
+          parentFunction={parentFunction}
+        />
       )}
       <h1 className="text-center">Roles Created by You</h1>
       {roleData?.length == 0 ? (
@@ -62,6 +69,7 @@ const Roles = () => {
         </h1>
       ) : (
         <TableComponent
+          //@ts-ignore
           tableData={roleData?.user_created}
           columns={columns}
           parentFunction={parentFunction}

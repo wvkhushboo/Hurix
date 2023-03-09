@@ -1,27 +1,31 @@
 import { useEffect } from "react";
 import { Button, Row } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
+import uuid from "react-uuid";
+import React from "react";
+import { IPROPS } from "../../modals/ITable";
 
-const TableComponent = (props: any) => {
+
+const TableComponent:React.FC<IPROPS> = ({tableData, columns, parentFunction}) => {
   // All declarations
   useEffect(() => {
     // console.log("props.tableData: ", props.tableData);
-  }, [props?.tableData]);
+  }, [tableData]);
   return (
     <div style={{ textAlign: "center" }}>
-      {props?.tableData.length == 0 ? (
+      {tableData?.length == 0 ? (
         <h1>No Data Available</h1>
       ) : (
         <Table striped bordered hover variant="dark">
           <thead>
-            <tr>
-              {props?.columns.map((data: any) => (
+            <tr key={uuid()}>
+              {columns?.map((data: any) => (
                 <th>{data}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {props?.tableData?.map((data: any) => (
+            {tableData?.map((data: any) => (
               <tr key={data?.id}>
                 <td className="team-table-data">
                   {data?.name != "" && <Row> {data.name}</Row>}
@@ -41,31 +45,9 @@ const TableComponent = (props: any) => {
                 )}
                 <td>
                   <div className="d-flex gap-2">
-                    {data?.buttons?.remove ? (
-                      <Button onClick={props.parentFunction}>{data?.buttons?.remove}</Button>
-                    ) : (
-                      ""
-                    )}
-                    {data?.buttons?.cancel ? (
-                      <Button onClick={props.parentFunction}>{data?.buttons?.cancel}</Button>
-                    ) : (
-                      ""
-                    )}
-                    {data?.buttons?.resend ? (
-                      <Button onClick={props.parentFunction}>{data?.buttons?.resend}</Button>
-                    ) : (
-                      ""
-                    )}
-                    {data?.buttons?.permissions ? (
-                      <Button onClick={props.parentFunction}>{data?.buttons?.permissions}</Button>
-                    ) : (
-                      ""
-                    )}
-                    {data?.buttons?.clone ? (
-                      <Button onClick={props.parentFunction}>{data?.buttons?.clone}</Button>
-                    ) : (
-                      ""
-                    )}
+                    {Object.values(data?.buttons).map((button: any) => (
+                      <Button onClick={parentFunction}>{button}</Button>
+                    ))}
                   </div>
                 </td>
               </tr>
